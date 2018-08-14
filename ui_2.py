@@ -52,7 +52,7 @@ def look_for(quest, objname):
                             obj_text24 = obj_text23[1]              
                             #print('obj_text24 = ', obj_text24) 
                             obj_text25 = obj_text24.split('"')
-                            print('obj_text25 = ', obj_text25) 
+                            # print('obj_text25 = ', obj_text25) 
                             obj_text27 = obj_text25[1]
 
 
@@ -85,16 +85,33 @@ root.mainloop()
 name = str(a.split('.')[0]) + "_tk_" + '.py'
 
 
+win_geom = False
+
 with open(name, "a+") as ff:  
    ff.write(shapka)         
-
 
    with open(a, "r") as f:
       while len(k):
          k = f.readline()
 
+         if not win_geom:
+            if 'MainWindow.resize' in k:
+                win_geom01 = k.split('(')
+                win_geom02 = win_geom01[1].split(',') 
+                # print('win_geom02 = ', win_geom02) 
+                # win_geom02 =  ['800', ' 600)\n']
+                win_x = win_geom02[0] #               
+                win_y = win_geom02[1][:-2] #      
+                #print('win_y = ', win_y)                
+                win_y = win_y.strip()
+                #print('win_y = ', win_y)                
+                # print('win_x, win_y = ', win_x, win_y)
+                root_geometry = "('" + win_x + "x" + win_y + "')"
+                ff.write("root.geometry"+root_geometry+"\n")
          #MainWindow.resize(800, 600)
          #root.geometry('800x600')
+
+
          spisok = look_for(k, 'QPushButton')
          if spisok:
             ff.write("btn01 = Button(bg='red', text='"+spisok[1]+"').place(x = "+\
