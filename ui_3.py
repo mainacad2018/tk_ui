@@ -125,6 +125,7 @@ def look_for(name, obj_text27, quest, objname): # принимает строк�
                                zz = "rgb = ("+str(rgb[0])+',' + str(rgb[1])+\
                                      ',' +str(rgb[2])+")"
                                zz2 = zz
+                               fg_color = zz2
 
                                k5 = f4.readline()
                                flag = 1
@@ -208,6 +209,22 @@ with open(a, "r") as f:
                 root_geometry = "('" + win_x + "x" + win_y + "')"
                 with open(name, "a+") as ff:  
                      ff.write("root.geometry"+root_geometry+"\n")
+         
+         if 'Form.resize' in k:
+                win_geom01 = k.split('(')
+                win_geom02 = win_geom01[1].split(',') 
+                win_x = win_geom02[0] #               
+                win_y = win_geom02[1][:-2] #      
+                win_y = win_y.strip()
+                root_geometry = "('" + win_x + "x" + win_y + "')"
+                with open(name, "a+") as ff:  
+                     ff.write("root.geometry"+root_geometry+"\n")
+
+         
+
+
+         #        Form.resize(400, 300)
+
          #MainWindow.resize(800, 600)
          #root.geometry('800x600')
 
@@ -228,14 +245,14 @@ with open(a, "r") as f:
               fg_color = c.hex        
               qa = "fg = '" + fg_color +"',"
               fg_color = qa
-              print('fg_color = ', fg_color)
+              #print('fg_color = ', fg_color)
 
           if bg_color:
               #qa = bg_color[:-1]                    
               #qa = qa[:4] + " = " + qa[4:]          
               #bg_color = qa                         
                                                     
-              print('bg_color(2) = ', bg_color)          
+              #print('bg_color(2) = ', bg_color)          
                                                     
               exec("d = Color(" + bg_color + ")")              
               bg_color = d.hex                      
@@ -273,12 +290,8 @@ with open(a, "r") as f:
 
 
           if bg_color:
-              qa = bg_color[:-1]                   
-              qa = qa[:4] + " = " + qa[4:]         
-              bg_color = qa                        
-                                                   
               exec("d = Color(" + bg_color + ")")              
-              bg_color = d.hex               
+              bg_color = d.hex                      
               qa = "bg = '" + bg_color +"',"
               bg_color = qa
 
@@ -303,9 +316,10 @@ with open(a, "r") as f:
 
 
           if bg_color:
-              qa = bg_color[:-1]                   
-              qa = qa[:4] + " = " + qa[4:]         
-              bg_color = qa                        
+              exec("d = Color(" + bg_color + ")")              
+              bg_color = d.hex                      
+              qa = "bg = '" + bg_color +"',"
+              bg_color = qa
                                                
               print('checkbox bg_color = ',bg_color)
               exec("d = Color(" + bg_color + ")")              
@@ -335,12 +349,8 @@ with open(a, "r") as f:
 
 
           if bg_color:
-              qa = bg_color[:-1]                       
-              qa = qa[:4] + " = " + qa[4:]             
-              bg_color = qa                            
-                                                       
               exec("d = Color(" + bg_color + ")")              
-              bg_color = d.hex                         
+              bg_color = d.hex                      
               qa = "bg = '" + bg_color +"',"
               bg_color = qa
 
