@@ -1,15 +1,13 @@
-
+# coding:utf-8
 import sys
+
+version = 0.3
 
 a = sys.argv[1]
 
 k = "kkk"
 
 from colorutils import Color
-
-# coding:utf-8
-
-# obj_text27_list = [] # !!! это будет обязательно, но ниже
 
 def look_for_textname(name, quest, objname): # принимает строку в которой искать, и что ищем
                               # наприм. QPushButton
@@ -27,13 +25,6 @@ def look_for_textname(name, quest, objname): # принимает строку �
                  k5 = 'k5'
                  while k5:
                     k5 = f4.readline()                       
-                    """
-                    print('k5 = ', k5)
-                    print('obj_name = ', obj_name)
-                    print('objname = ', objname)
-                    input('-------------')
-                    # print('k5_str = ', k5_str)
-                    """
 
                     if obj_name in k5:                        
                         if 'setText' in k5:                        
@@ -41,39 +32,43 @@ def look_for_textname(name, quest, objname): # принимает строку �
                             count += 1
                             obj_text22 = k5.split('.')               
                             obj_text23 = obj_text22[2].split(',')    
-                            #print('obj_text23 = ', obj_text23)      
                             obj_text24 = obj_text23[1]               
-                            #print('obj_text24 = ', obj_text24)      
                             obj_text25 = obj_text24.split('"')       
-                            # print('obj_text25 = ', obj_text25)     
                             obj_text27 = obj_text25[1]               
 
     return obj_text27
+
+
+fonts = ['font.setFamily("Arial")', 
+         'font.setPointSize(16)',
+         'font.setBold(True)', 
+         'font.setWeight(75)']
+font_end = 'self.pushButton.setFont(font)'
+
 
 
 def look_for(name, obj_text27, quest, objname): # принимает строку в которой искать, и что ищем
                               # наприм. QPushButton
     k = quest                                    
     count = 0                           
-                                                                           
+
+    obj_text27 = ''                                                             
+    btn_x = ''                                                                  
+    btn_y = ''                                                                  
+    obj_x = ''                                                                  
+    obj_y = ''                                                                  
+    fg_color = ''           
+    bg_color = ''           
+    zz2 = ''                
+    font_name_size = ''     
+    font_name = ''     
+    font_size = ''     
+
     #if 'QPushButton' in k:                                                     
     if objname in k:                                                            
         btn01 = k.split('.')                                                    
         btn02var = btn01[1].split(' = ')                                        
         obj_name = btn02var[0] # имя переменной Button                          
-    
-        # print("obj_name = ",obj_name)                                                               
-        # открываем заново и читаем все строки, в которых есть этот объект      
-        # по таким темам:                                                       
-
-        obj_text27 = ''                                                         
-        btn_x = ''                                                              
-        btn_y = ''                                                              
-        obj_x = ''                                                              
-        obj_y = ''                                                              
-        fg_color = ''
-        bg_color = ''
-        zz2 = ''
 
         flag = 0
         with open(a, "r") as f4:
@@ -99,6 +94,35 @@ def look_for(name, obj_text27, quest, objname): # принимает строк�
                            obj_y = int(btn02geom[3][0].strip())  # rel y  
 
                            print('========== obj_name = ', obj_name)
+
+                           k5 = f4.readline()
+                           if 'font = QtGui.QFont()' in k5:
+                               while 'font' in k5:
+                                      k5 = f4.readline()
+                                      """                                   
+                                      for fonty in fonts:                   
+                                          if fonty in k5:                   
+                                             print('Да')                    
+                                      """                                   
+                                      if 'font.setFamily' in k5:            
+                                         #'font.setFamily("Arial")'         
+                                         k7 = k5.split('"')                 
+                                         font_name = k7[1]             
+                                         print('font_name = ', font_name)   
+                                                                            
+                                      if 'font.setPointSize' in k5:         
+                                         #font.setPointSize(16)             
+                                         k7 = k5.split('(')                 
+                                         font_size = k7[1][:-2]             
+                                         print('font_size = ', font_size)   
+                                         #'font.setBold(True)',             
+                                         #'font.setWeight(75)']             
+                                         # 'self.pushButton.setFont(font)'  
+                               if not font_name: font_name = "Arial "
+                               font_name_size = "'"+font_name+' '+font_size+"'"
+                               # font="Arial 18"
+                               font_name_size = 'font = '+ font_name_size
+
 
                        if 'setStyleSheet' in k5:
                            # отдельная функц.
@@ -148,28 +172,8 @@ def look_for(name, obj_text27, quest, objname): # принимает строк�
                                    bg_color = zz
 
         return obj_name, str(btn_x), str(btn_y), str(obj_x),\
-               str(obj_y), fg_color, bg_color, zz2
+               str(obj_y), fg_color, bg_color, zz2, font_name_size
     return None
-
-class WidgetStorage():
-
-    def __init__(self, obj_name, obj_text, btn_x, btn_y, obj_x, obj_y):
-
-       self.obj_name = []
-       self.obj_text = obj_text
-       self.btn_x  = []
-       self.btn_y  = []
-       self.obj_x  = []
-       self.obj_y  = []
-
-       self.obj_name.append(obj_name)
-       # self.obj_text.append(obj_text)
-       self.btn_x.append(btn_x)
-       self.btn_y.append(btn_y)
-       self.obj_x.append(obj_x)
-       self.obj_y.append(obj_y)
-
-
 
 spisok = []    
 
@@ -189,7 +193,7 @@ name = str(a.split('.')[0]) + "_tk_" + '.py'
 
 win_geom = False
 
-btn_store = WidgetStorage(0,0,0,0,0,0)
+#btn_store = WidgetStorage(0,0,0,0,0,0)
 
 # ===================================
 
@@ -220,40 +224,22 @@ with open(a, "r") as f:
                 with open(name, "a+") as ff:  
                      ff.write("root.geometry"+root_geometry+"\n")
 
-         
-
-
-         #        Form.resize(400, 300)
-
-         #MainWindow.resize(800, 600)
-         #root.geometry('800x600')
-
-         #======================
        if 'QPushButton' in k:
-          #print('=======> if QPushButon <<==========')
-          #print('count =  ',count)
-          #count += 1
 
           obj_27 = look_for_textname(name, k, 'QPushButton')
-          #print('obj_27 = ', obj_27)
 
-          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2 = look_for(name, 
+          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2, font_name_size = look_for(name, 
                     obj_27, k, 'QPushButton')
 
+          print('font_name_size = ', font_name_size)
           if fg_color:
               exec("c = Color("+zz2+")")                  
               fg_color = c.hex        
               qa = "fg = '" + fg_color +"',"
               fg_color = qa
-              #print('fg_color = ', fg_color)
 
           if bg_color:
-              #qa = bg_color[:-1]                    
-              #qa = qa[:4] + " = " + qa[4:]          
-              #bg_color = qa                         
-                                                    
-              #print('bg_color(2) = ', bg_color)          
-                                                    
+                                                   
               exec("d = Color(" + bg_color + ")")              
               bg_color = d.hex                      
               qa = "bg = '" + bg_color +"',"
@@ -267,19 +253,23 @@ with open(a, "r") as f:
               #k6_rgb =  rgb(255, 0, 0);            
               #c.hex =  #ff0000                     
 
+          
+          obj_name_text1 = obj_name+ "= Button("+ bg_color+fg_color+" text='"
+          obj_name_text1 += obj_27+"',"+font_name_size+").place("
+          obj_name_text1 += "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
 
-          obj_name_text = obj_name+ "= Button("+bg_color+fg_color+" text='"+obj_27+"').place("
-          obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
-
+          # pushButton= Button(bg = '#ffff7f',fg = '#ff5500', 
+          # text='PushButton').place(x =240,y=120, width=75, 
+          # height=51)
           with open(name, "a+") as ff:                          
-             ff.write(obj_name_text+obj_place)
+             ff.write(obj_name_text1)
              ff.write('\n')                                                      
                            
 
        if 'QLabel' in k:
 
           obj_27 = look_for_textname(name, k, 'QLabel')
-          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2 = look_for(name, 
+          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2, font_name_size = look_for(name, 
                     obj_27, k, 'QLabel')
 
           if fg_color:
@@ -295,7 +285,7 @@ with open(a, "r") as f:
               qa = "bg = '" + bg_color +"',"
               bg_color = qa
 
-          obj_name_text = obj_name+ "= Label("+bg_color+fg_color+" text='"+obj_27+"').place("
+          obj_name_text = obj_name+ "= Label("+bg_color+fg_color+" text='"+obj_27+font_name_size+"').place("
           obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
 
           with open(name, "a+") as ff:                          
@@ -305,7 +295,7 @@ with open(a, "r") as f:
 
        if 'QCheckBox' in k:
           obj_27 = look_for_textname(name, k, 'QCheckBox')
-          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2 = look_for(name, 
+          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2, font_name_size = look_for(name, 
                     obj_27, k, 'QCheckBox')
 
           if fg_color:
@@ -328,7 +318,7 @@ with open(a, "r") as f:
               bg_color = qa
 
 
-          obj_name_text = obj_name+ "= Checkbutton("+bg_color+fg_color+" text='"+obj_27+"').place("
+          obj_name_text = obj_name+ "= Checkbutton("+bg_color+fg_color+" text='"+obj_27+font_name_size+"').place("
           obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
 
           with open(name, "a+") as ff:                          
@@ -338,7 +328,7 @@ with open(a, "r") as f:
 
        if 'QRadioButton' in k:
           obj_27 = look_for_textname(name, k, 'QRadioButton')
-          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2 = look_for(name, 
+          obj_name, btn_x, btn_y, obj_x, obj_y, fg_color, bg_color, zz2, font_name_size = look_for(name, 
                     obj_27, k, 'QRadioButton')
 
           if fg_color:
@@ -355,17 +345,12 @@ with open(a, "r") as f:
               bg_color = qa
 
 
-          obj_name_text = obj_name+ "= Radiobutton("+bg_color+fg_color+" text='"+obj_27+"').place("
+          obj_name_text = obj_name+ "= Radiobutton("+bg_color+fg_color+" text='"+obj_27+font_name_size+"').place("
           obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
 
           with open(name, "a+") as ff:                          
              ff.write(obj_name_text+obj_place)
              ff.write('\n')                                                      
-
-
-#QRadioButton
-#QCheckBox
-
 
 with open(name, "a+") as ff:  
     ff.write(podval)
