@@ -118,7 +118,8 @@ def look_for(name, obj_text27, quest, objname): # принимает строк�
                                          #'font.setBold(True)',             
                                          #'font.setWeight(75)']             
                                          # 'self.pushButton.setFont(font)'  
-                               if not font_name: font_name = "Arial "
+
+                               # if not font_name: font_name = "Arial "
                                font_name_size = "'"+font_name+' '+font_size+"'"
                                # font="Arial 18"
                                font_name_size = 'font = '+ font_name_size
@@ -245,7 +246,7 @@ with open(a, "r") as f:
               qa = "bg = '" + bg_color +"',"
               bg_color = qa
 
-              #print('bg_color = ', bg_color)       
+              # print('bg_color = ', bg_color)       
                                                     
               #print('fg_color = ',fg_color)                  
               # хоть тут работает !!!               
@@ -253,16 +254,27 @@ with open(a, "r") as f:
               #k6_rgb =  rgb(255, 0, 0);            
               #c.hex =  #ff0000                     
 
-          
-          obj_name_text1 = obj_name+ "= Button("+ bg_color+fg_color+" text='"
-          obj_name_text1 += obj_27+"',"+font_name_size+").place("
-          obj_name_text1 += "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
+          # !!! каждая секция со своими кавычками и запятой после
+          def strok(a):
+              return ' '*a
 
-          # pushButton= Button(bg = '#ffff7f',fg = '#ff5500', 
-          # text='PushButton').place(x =240,y=120, width=75, 
-          # height=51)
+
+          obj_27 = "text='" + obj_27 + "',"
+
+          obj_01 =f"{obj_name}= Button({bg_color} \n{strok(19)}{fg_color} \n"
+          obj_02 =f"{strok(19)}{obj_27} \n{strok(19)}{font_name_size})"
+          obj_03 =(obj_01+obj_02).format()
+
+          obj_04 =f"{obj_name}.place(x ={btn_x},"
+          obj_05 =f"y={btn_y},\n {strok(17)}width={obj_x},height={obj_y})"
+          obj_06 =(obj_04+obj_05).format()
+
           with open(name, "a+") as ff:                          
-             ff.write(obj_name_text1)
+             # ff.write(obj_name_text1)
+             ff.write(obj_03)
+             ff.write('\n')
+             ff.write(obj_06)
+             ff.write('\n')                                                      
              ff.write('\n')                                                      
                            
 
@@ -285,11 +297,27 @@ with open(a, "r") as f:
               qa = "bg = '" + bg_color +"',"
               bg_color = qa
 
-          obj_name_text = obj_name+ "= Label("+bg_color+fg_color+" text='"+obj_27+font_name_size+"').place("
-          obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
+          """
+          def strok(a):
+              return ' '*a
+          """
+
+          obj_27 = "text='" + obj_27 + "',"
+
+          obj_01 =f"{obj_name}= Label({bg_color} \n{strok(14)}{fg_color} \n"
+          obj_02 =f"{strok(14)}{obj_27} \n{strok(14)}{font_name_size})"
+          obj_03 =(obj_01+obj_02).format()
+
+          obj_04 =f"{obj_name}.place(x ={btn_x},"
+          obj_05 =f"y={btn_y},\n {strok(17)}width={obj_x},height={obj_y})"
+          obj_06 =(obj_04+obj_05).format()
 
           with open(name, "a+") as ff:                          
-             ff.write(obj_name_text+obj_place)
+             # ff.write(obj_name_text1)
+             ff.write(obj_03)
+             ff.write('\n')
+             ff.write(obj_06)
+             ff.write('\n')                                                      
              ff.write('\n')                                                      
                            
 
@@ -318,11 +346,22 @@ with open(a, "r") as f:
               bg_color = qa
 
 
-          obj_name_text = obj_name+ "= Checkbutton("+bg_color+fg_color+" text='"+obj_27+font_name_size+"').place("
-          obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
+          obj_27 = "text='" + obj_27 + "',"
+
+          obj_01 =f"{obj_name}= Checkbutton({bg_color} \n{strok(14)}{fg_color} \n"
+          obj_02 =f"{strok(14)}{obj_27} \n{strok(14)}{font_name_size})"
+          obj_03 =(obj_01+obj_02).format()
+
+          obj_04 =f"{obj_name}.place(x ={btn_x},"
+          obj_05 =f"y={btn_y},\n {strok(17)}width={obj_x},height={obj_y})"
+          obj_06 =(obj_04+obj_05).format()
 
           with open(name, "a+") as ff:                          
-             ff.write(obj_name_text+obj_place)
+             # ff.write(obj_name_text1)
+             ff.write(obj_03)
+             ff.write('\n')
+             ff.write(obj_06)
+             ff.write('\n')                                                      
              ff.write('\n')                                                      
 
 
@@ -345,11 +384,22 @@ with open(a, "r") as f:
               bg_color = qa
 
 
-          obj_name_text = obj_name+ "= Radiobutton("+bg_color+fg_color+" text='"+obj_27+font_name_size+"').place("
-          obj_place = "x ="+btn_x+",y="+btn_y+", width="+obj_x+", height="+obj_y+")"
+          obj_27 = "text='" + obj_27 + "',"
+
+          obj_01 =f"{obj_name}= Radiobutton({bg_color} \n{strok(14)}{fg_color} \n"
+          obj_02 =f"{strok(14)}{obj_27} \n{strok(14)}{font_name_size})"
+          obj_03 =(obj_01+obj_02).format()
+
+          obj_04 =f"{obj_name}.place(x ={btn_x},"
+          obj_05 =f"y={btn_y},\n {strok(17)}width={obj_x},height={obj_y})"
+          obj_06 =(obj_04+obj_05).format()
 
           with open(name, "a+") as ff:                          
-             ff.write(obj_name_text+obj_place)
+             # ff.write(obj_name_text1)
+             ff.write(obj_03)
+             ff.write('\n')
+             ff.write(obj_06)
+             ff.write('\n')                                                      
              ff.write('\n')                                                      
 
 with open(name, "a+") as ff:  
